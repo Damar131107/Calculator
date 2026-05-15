@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kalkulator Premium Galaxy</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* ================= RESET ================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+
+  min-height:100vh;
+
+  overflow-x:hidden;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:
+  radial-gradient(circle at top,
+  #1e1b4b 0%,
+  #0f172a 40%,
+  #020617 100%);
+
+  position:relative;
+
+  padding:40px 20px 180px;
+}
+
+/* ================= CANVAS ================= */
+
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+
+/* ================= GALAXY ================= */
+
+.galaxy{
+
+  position:fixed;
+
+  width:650px;
+  height:650px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(circle,
+  rgba(168,85,247,0.15),
+  rgba(59,130,246,0.06),
+  transparent 70%);
+
+  filter:blur(20px);
+
+  animation:
+  rotateGalaxy 120s linear infinite;
+
+  z-index:1;
+}
+
+@keyframes rotateGalaxy{
+
+  from{
+    transform:rotate(0deg);
+  }
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+/* ================= MAIN WRAPPER ================= */
+
+.wrapper{
+
+  position:relative;
+
+  z-index:10;
+
+  width:100%;
+
+  max-width:420px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  gap:18px;
+}
+
+/* ================= CALCULATOR ================= */
+
+.calculator{
+
+  width:100%;
+
+  padding:24px;
+
+  border-radius:28px;
+
+  background:
+  rgba(255,255,255,0.07);
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+  0 0 30px rgba(0,0,0,0.35);
+}
+
+/* ================= TITLE ================= */
+
+.title{
+
+  text-align:center;
+
+  color:white;
+
+  margin-bottom:18px;
+}
+
+.title h1{
+
+  font-size:30px;
+}
+
+.title p{
+
+  font-size:13px;
+
+  color:#cbd5e1;
+
+  margin-top:4px;
+}
+
+/* ================= DISPLAY ================= */
+
+.display{
+
+  width:100%;
+
+  height:78px;
+
+  border:none;
+  outline:none;
+
+  border-radius:18px;
+
+  padding:15px;
+
+  margin-bottom:18px;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  color:white;
+
+  text-align:right;
+
+  font-size:30px;
+}
+
+/* ================= BUTTONS ================= */
+
+.buttons{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(4,1fr);
+
+  gap:12px;
+}
+
+button{
+
+  height:68px;
+
+  border:none;
+
+  border-radius:18px;
+
+  cursor:pointer;
+
+  color:white;
+
+  font-size:20px;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  transition:0.15s ease;
+}
+
+button:hover{
+
+  transform:scale(1.03);
+}
+
+.operator{
+
+  background:
+  linear-gradient(45deg,
+  #2563eb,
+  #7c3aed);
+}
+
+.equal{
+
+  background:
+  linear-gradient(45deg,
+  #dc2626,
+  #ef4444);
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+
+  margin-top:18px;
+
+  text-align:center;
+
+  color:#94a3b8;
+
+  font-size:11px;
+}
+
+/* ================= CAT ================= */
+
+.cat-container{
+
+  opacity:0;
+
+  transition:0.3s ease;
+}
+
+.cat-container.active{
+
+  opacity:1;
+
+}
+
+.cat{
+
+  width:110px;
+
+  filter:
+  drop-shadow(0 0 20px rgba(255,255,255,0.35));
+}
+
+@keyframes catDance{
+
+  0%{
+
+    transform:
+    rotate(-10deg)
+    translateY(0px);
+
+  }
+
+  25%{
+
+    transform:
+    rotate(10deg)
+    translateY(-10px);
+
+  }
+
+  50%{
+
+    transform:
+    rotate(-10deg)
+    translateY(0px);
+
+  }
+
+  75%{
+
+    transform:
+    rotate(10deg)
+    translateY(-10px);
+
+  }
+
+  100%{
+
+    transform:
+    rotate(-10deg)
+    translateY(0px);
+
+  }
+
+}
+
+/* ================= MUSIC BUTTON ================= */
+
+.music-player{
+
+  width:100%;
+
+  display:flex;
+
+  justify-content:center;
+}
+
+#musicBtn{
+
+  width:100%;
+
+  max-width:240px;
+
+  height:58px;
+
+  border:none;
+
+  border-radius:50px;
+
+  cursor:pointer;
+
+  color:white;
+
+  font-size:15px;
+
+  font-weight:600;
+
+  background:
+  linear-gradient(45deg,
+  #2563eb,
+  #7c3aed);
+
+  box-shadow:
+  0 0 18px rgba(124,58,237,0.35);
+}
+
+/* ================= POPUP ================= */
+
+.popup{
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+  rgba(0,0,0,0.72);
+
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+
+  visibility:hidden;
+  opacity:0;
+
+  transition:0.2s ease;
+
+  z-index:9999;
+
+  padding:20px;
+}
+
+.popup.active{
+
+  visibility:visible;
+  opacity:1;
+}
+
+/* ================= POPUP BOX ================= */
+
+.popup-box{
+
+  width:100%;
+  max-width:350px;
+
+  padding:28px;
+
+  border-radius:28px;
+
+  text-align:center;
+
+  background:
+  linear-gradient(180deg,
+  #111827,
+  #1e293b);
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+  0 0 30px rgba(124,58,237,0.25);
+}
+
+/* ================= PROFILE ================= */
+
+.profile{
+
+  width:110px;
+  height:110px;
+
+  object-fit:cover;
+
+  border-radius:50%;
+
+  border:4px solid white;
+
+  margin-bottom:18px;
+}
+
+/* ================= POPUP TEXT ================= */
+
+.popup-box h2{
+
+  color:white;
+
+  margin-bottom:12px;
+}
+
+.popup-box p{
+
+  color:#cbd5e1;
+
+  line-height:1.7;
+
+  margin-bottom:20px;
+
+  font-size:14px;
+}
+
+/* ================= PREMIUM BUTTON ================= */
+
+.premium-btn{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:16px;
+
+  cursor:pointer;
+
+  color:white;
+
+  font-weight:600;
+
+  background:
+  linear-gradient(45deg,
+  #2563eb,
+  #7c3aed);
+}
+
+/* ================= CLOSE BUTTON ================= */
+
+.close-btn{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:16px;
+
+  cursor:pointer;
+
+  margin-top:10px;
+
+  color:white;
+
+  background:
+  rgba(255,255,255,0.08);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:500px){
+
+  body{
+
+    padding:20px 14px 140px;
+  }
+
+  .calculator{
+
+    padding:18px;
+  }
+
+  .display{
+
+    height:70px;
+
+    font-size:26px;
+  }
+
+  button{
+
+    height:62px;
+
+    font-size:18px;
+  }
+
+  .cat{
+
+    width:90px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- CANVAS -->
+<canvas id="stars"></canvas>
+
+<!-- GALAXY -->
+<div class="galaxy"></div>
+
+<!-- WRAPPER -->
+<div class="wrapper">
+
+  <!-- CALCULATOR -->
+  <div class="calculator">
+
+    <!-- TITLE -->
+    <div class="title">
+
+      <h1>Kalkulator</h1>
+
+      <p>Galaxy Smooth UI</p>
+
+    </div>
+
+    <!-- DISPLAY -->
+    <input
+    type="text"
+    class="display"
+    id="display"
+    readonly>
+
+    <!-- BUTTONS -->
+    <div class="buttons">
+
+      <button onclick="clearDisplay()">C</button>
+
+      <button onclick="deleteLast()">⌫</button>
+
+      <button onclick="append('%')" class="operator">%</button>
+
+      <button onclick="append('/')" class="operator">÷</button>
+
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+
+      <button onclick="append('*')" class="operator">×</button>
+
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+
+      <button onclick="append('-')" class="operator">−</button>
+
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+
+      <button onclick="append('+')" class="operator">+</button>
+
+      <button onclick="append('0')">0</button>
+
+      <button onclick="append('.')">.</button>
+
+      <!-- EQUAL -->
+      <button
+      onclick="showPopup()"
+      class="equal"
+      style="grid-column:span 2;">
+
+        =
+
+      </button>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+
+      © 2026 Premium Calculator
+
+    </div>
+
+  </div>
+
+  <!-- DANCING CAT -->
+  <div class="cat-container" id="catContainer">
+
+    <img
+    src="cat.gif"
+    class="cat">
+
+  </div>
+
+  <!-- MUSIC BUTTON -->
+  <div class="music-player">
+
+    <button id="musicBtn">
+
+      ▶️ Play Music
+
+    </button>
+
+  </div>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+
+  <div class="popup-box">
+
+    <!-- FOTO -->
+    <img
+    src="profile.jpg"
+    class="profile">
+
+    <h2>🔒 Premium Access</h2>
+
+    <p>
+
+      Untuk melihat hasil perhitungan,
+      silakan membeli akses premium
+      terlebih dahulu.
+
+    </p>
+
+    <!-- WHATSAPP -->
+    <a
+    href="https://wa.me/6283120988248?text=Halo%20saya%20ingin%20membeli%20akses%20premium%20kalkulator"
+    target="_blank">
+
+      <button class="premium-btn">
+
+        Beli Premium
+
+      </button>
+
+    </a>
+
+    <!-- CLOSE -->
+    <button
+    class="close-btn"
+    onclick="closePopup()">
+
+      Tutup
+
+    </button>
+
+  </div>
+
+</div>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+
+  <source
+  src="music.mp3"
+  type="audio/mpeg">
+
+</audio>
+
+<script>
+
+/* ================= DISPLAY ================= */
+
+const display =
+document.getElementById('display');
+
+/* APPEND */
+
+function append(value){
+
+  display.value += value;
+
+}
+
+/* CLEAR */
+
+function clearDisplay(){
+
+  display.value = '';
+
+}
+
+/* DELETE */
+
+function deleteLast(){
+
+  display.value =
+  display.value.slice(0,-1);
+
+}
+
+/* ================= POPUP ================= */
+
+function showPopup(){
+
+  document
+  .getElementById('popup')
+  .classList.add('active');
+
+}
+
+function closePopup(){
+
+  document
+  .getElementById('popup')
+  .classList.remove('active');
+
+}
+
+/* ================= MUSIC ================= */
+
+const music =
+document.getElementById('music');
+
+const musicBtn =
+document.getElementById('musicBtn');
+
+const cat =
+document.getElementById('catContainer');
+
+let playing = false;
+
+musicBtn.addEventListener('click',()=>{
+
+  if(!playing){
+
+    music.play();
+
+    musicBtn.innerHTML =
+    '⏸️ Pause Music';
+
+    cat.classList.add('active');
+
+    playing = true;
+
+  }else{
+
+    music.pause();
+
+    musicBtn.innerHTML =
+    '▶️ Play Music';
+
+    cat.classList.remove('active');
+
+    playing = false;
+
+  }
+
+});
+
+/* ================= CANVAS STARS ================= */
+
+const canvas =
+document.getElementById('stars');
+
+const ctx =
+canvas.getContext('2d');
+
+function resizeCanvas(){
+
+  canvas.width =
+  window.innerWidth;
+
+  canvas.height =
+  window.innerHeight;
+
+}
+
+resizeCanvas();
+
+const stars = [];
+
+for(let i=0;i<100;i++){
+
+  stars.push({
+
+    x:Math.random()*canvas.width,
+
+    y:Math.random()*canvas.height,
+
+    r:Math.random()*1.5,
+
+    o:Math.random(),
+
+    s:Math.random()*0.02
+
+  });
+
+}
+
+function drawStars(){
+
+  ctx.clearRect(
+  0,
+  0,
+  canvas.width,
+  canvas.height);
+
+  for(let star of stars){
+
+    ctx.beginPath();
+
+    ctx.arc(
+      star.x,
+      star.y,
+      star.r,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle =
+    `rgba(255,255,255,${star.o})`;
+
+    ctx.fill();
+
+    star.o += star.s;
+
+    if(star.o >= 1 || star.o <= 0.2){
+
+      star.s *= -1;
+
+    }
+
+  }
+
+  requestAnimationFrame(drawStars);
+
+}
+
+drawStars();
+
+window.addEventListener(
+'resize',
+resizeCanvas);
+
+/* ================= PERFORMANCE ================= */
+
+document.addEventListener(
+'visibilitychange',
+
+()=>{
+
+  if(document.hidden){
+
+    music.pause();
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
